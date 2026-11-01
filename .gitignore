@@ -35,3 +35,6 @@ Thumbs.db
 # Local database dumps
 *.dump
 *.sql.gz
+
+.vercel
+.env*
