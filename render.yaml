@@ -1,0 +1,43 @@
+# Render Blueprint for UtsavOS.
+# One web service built from the root Dockerfile serves the SPA and the API on
+# the SAME origin, which preserves the app's security model: __Host- session
+# cookies, SameSite=Lax, CSRF double-submit, and no CORS in production.
+# Docs: https://render.com/docs/blueprint-spec
+services:
+  - type: web
+    name: utsavos
+    runtime: docker
+    plan: free # upgrade to 0.5c-512mb ($7/mo) for an always-on instance
+    region: singapore
+    branch: main
+    # Fast, dependency-free deploy-gating check; /readyz additionally verifies
+    # the database, verified TLS and the migration head (see ops runbook).
+    healthCheckPath: /healthz
+    # Bind to 0.0.0.0:$PORT (Render assigns PORT). Migrations run before the
+    # server accepts traffic and are idempotent; a single worker keeps the
+    # in-process rate limiters meaningful.
+    dockerCommand: sh -c 'alembic upgrade head && exec uvicorn utsavos.main:app --host 0.0.0.0 --port ${PORT} --workers 1 --no-access-log'
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_SECRET_KEY
+        generateValue: true # 256-bit random; never committed
+      # Production requires verified TLS: set the External Database URL with
+      # ?sslmode=verify-full&sslrootcert=<CA file or 'system'> after the first
+      # sync. The startup validator rejects anything weaker - deliberately.
+      - key: DATABASE_URL
+        sync: false
+      - key: AI_LOCAL_ENABLED
+        value: "false"
+      - key: CLOUD_AI_ENABLED
+        value: "false" # enable only with GEMINI_API_KEY; consent rules still apply
+      - key: LOG_LEVEL
+        value: INFO
+
+databases:
+  - name: utsavos-pg
+    databaseName: utsavos
+    user: utsavos
+    plan: free # Free Postgres expires 30 days after creation (14-day grace)
+    region: singapore
+    postgresMajorVersion: "16" # matches the docker-compose/db pinned version
