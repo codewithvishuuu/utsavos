@@ -1,0 +1,150 @@
+{
+  "id": "ananya-wedding-180",
+  "version": 1,
+  "disclaimer": "Synthetic demonstration data. Ananya is a fictional persona. Vendor names, quotes, and prices are invented for this demo and are not real market data.",
+  "persona": {
+    "name": "Ananya",
+    "age": 29,
+    "city": "Hyderabad",
+    "event_type": "wedding",
+    "ceremonies": 3,
+    "note": "Fictional persona used for the flagship demonstration."
+  },
+  "event": {
+    "name": "Ananya & Rohan wedding",
+    "city": "Hyderabad",
+    "event_date": "2027-02-14",
+    "guest_count": 180,
+    "budget_minor": 180000000,
+    "reserve_minor": 18000000,
+    "currency": "INR"
+  },
+  "items": [
+    {
+      "id": "venue",
+      "label": "Venue and mandap",
+      "category": "Venue",
+      "basis": "fixed",
+      "unit_amount_minor": 42000000,
+      "quantity": 1,
+      "vendor_id": "vendor-venue"
+    },
+    {
+      "id": "catering",
+      "label": "Catering per guest",
+      "category": "Catering",
+      "basis": "per_guest",
+      "unit_amount_minor": 380000,
+      "quantity": 1,
+      "vendor_id": "vendor-catering"
+    },
+    {
+      "id": "decor",
+      "label": "Decor and florals",
+      "category": "Decor",
+      "basis": "fixed",
+      "unit_amount_minor": 15000000,
+      "quantity": 1
+    },
+    {
+      "id": "photography",
+      "label": "Photography and film",
+      "category": "Photography",
+      "basis": "fixed",
+      "unit_amount_minor": 10000000,
+      "quantity": 1
+    },
+    {
+      "id": "attire",
+      "label": "Attire and styling",
+      "category": "Attire",
+      "basis": "fixed",
+      "unit_amount_minor": 6000000,
+      "quantity": 1
+    },
+    {
+      "id": "invitations",
+      "label": "Invitations per guest",
+      "category": "Stationery",
+      "basis": "per_guest",
+      "unit_amount_minor": 12000,
+      "quantity": 1
+    },
+    {
+      "id": "misc",
+      "label": "Contingency items",
+      "category": "Other",
+      "basis": "fixed",
+      "unit_amount_minor": 3000000,
+      "quantity": 1
+    }
+  ],
+  "tasks": [
+    {
+      "id": "book-venue",
+      "title": "Book venue and pay deposit",
+      "status": "done",
+      "due_date": "2026-06-19",
+      "offset_days": -240,
+      "is_locked": false
+    },
+    {
+      "id": "save-the-dates",
+      "title": "Send save-the-dates",
+      "status": "done",
+      "due_date": "2026-09-17",
+      "offset_days": -150,
+      "is_locked": false
+    },
+    {
+      "id": "menu-tasting",
+      "title": "Finalise catering menu",
+      "status": "todo",
+      "due_date": "2026-11-16",
+      "offset_days": -90,
+      "is_locked": false
+    },
+    {
+      "id": "invitations-out",
+      "title": "Send invitations",
+      "status": "todo",
+      "due_date": "2026-12-16",
+      "offset_days": -60,
+      "is_locked": false
+    },
+    {
+      "id": "headcount",
+      "title": "Confirm final headcount",
+      "status": "todo",
+      "due_date": "2027-01-31",
+      "offset_days": -14,
+      "is_locked": false
+    },
+    {
+      "id": "seating",
+      "title": "Finalise seating plan",
+      "status": "todo",
+      "due_date": "2027-02-07",
+      "offset_days": -7,
+      "is_locked": false
+    },
+    {
+      "id": "transport",
+      "title": "Confirm guest transport",
+      "status": "todo",
+      "due_date": "2027-02-11",
+      "offset_days": -3,
+      "is_locked": true
+    }
+  ],
+  "dependencies": [
+    {"predecessor_id": "menu-tasting", "successor_id": "headcount"},
+    {"predecessor_id": "invitations-out", "successor_id": "headcount"},
+    {"predecessor_id": "headcount", "successor_id": "seating"}
+  ],
+  "scenario": {
+    "kind": "guest_count",
+    "guest_count": 240,
+    "label": "Guest list grows from 180 to 240"
+  }
+}

@@ -1,0 +1,45 @@
+name: utsavos
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: utsavos
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD to a strong URL-safe value}
+      POSTGRES_DB: utsavos
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U utsavos -d utsavos"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  api:
+    build: .
+    # Do not add workers or replicas: auth/demo limits are per process until a shared store exists.
+    environment:
+      APP_ENV: ${APP_ENV:-development}
+      APP_SECRET_KEY: ${APP_SECRET_KEY:?Set APP_SECRET_KEY to at least 32 random characters}
+      DATABASE_URL: postgresql+psycopg://utsavos:${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD}@db:5432/utsavos
+      # For APP_ENV=production this must be overridden to add verified TLS:
+      # ?sslmode=verify-full&sslrootcert=<CA file or system> — startup and /readyz fail closed otherwise.
+      # Public HTTPS deployments: set APP_ENV=production, SESSION_COOKIE_SECURE=true
+      # (or leave it unset), and put the API behind a TLS-terminating proxy.
+      TRUSTED_PROXY_IPS: ${TRUSTED_PROXY_IPS:-}
+      # Public-hosted posture: AI stays off unless the operator opts in.
+      AI_LOCAL_ENABLED: "false"
+      CLOUD_AI_ENABLED: "false"
+      LOG_LEVEL: INFO
+    ports:
+      # Loopback only: terminate TLS in a reverse proxy on the host.
+      - "127.0.0.1:8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  pgdata:

@@ -1,0 +1,125 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "Cormorant Garamond";
+  font-style: normal;
+  font-weight: 500 700;
+  font-display: swap;
+  src: url("/fonts/cormorant-garamond-normal.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Cormorant Garamond";
+  font-style: italic;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url("/fonts/cormorant-garamond-italic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Plus Jakarta Sans";
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url("/fonts/plus-jakarta-sans.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url("/fonts/jetbrains-mono.woff2") format("woff2");
+}
+
+.font-serif-editorial {
+  font-family: "Cormorant Garamond", Georgia, serif;
+}
+
+.font-sans-ui {
+  font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.font-mono-code {
+  font-family: "JetBrains Mono", monospace;
+}
+
+@keyframes floatSlow {
+  0%,
+  100% {
+    transform: translateY(0px) rotate(-1.5deg);
+  }
+  50% {
+    transform: translateY(-6px) rotate(-1deg);
+  }
+}
+
+.animate-float-card {
+  animation: floatSlow 7s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-float-card {
+    animation: none !important;
+    transform: none !important;
+  }
+}
+
+@layer base {
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+}
+
+@layer components {
+  .eyebrow {
+    @apply text-[11px] font-semibold uppercase tracking-[0.24em];
+  }
+
+  .hero-glow {
+    background-image:
+      radial-gradient(55% 60% at 72% 18%, rgba(200, 90, 50, 0.18), transparent 70%),
+      radial-gradient(40% 55% at 10% 85%, rgba(95, 111, 94, 0.14), transparent 70%);
+  }
+
+  .footer-watermark::after {
+    content: "UTSAVOS";
+    display: block;
+    color: rgba(250, 246, 240, 0.035);
+    font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+    font-size: 18vw;
+    letter-spacing: -0.06em;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+  }
+}
+
+body {
+  @apply bg-slate-50 text-slate-900;
+}
+
+.card {
+  @apply rounded-3xl border border-[#181512]/10 bg-white p-5 sm:p-6;
+}
+
+.btn {
+  @apply inline-flex min-h-[44px] items-center justify-center rounded-full bg-[#B04B25] px-5 py-2.5 text-center text-sm font-semibold text-[#FAF6F0] transition-colors hover:bg-[#8F3A1D] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C85A32] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
+}
+
+.btn-secondary {
+  @apply inline-flex min-h-[44px] items-center justify-center rounded-full border border-[#181512]/20 bg-transparent px-5 py-2.5 text-center text-sm font-semibold text-[#181512] transition-colors hover:border-[#C85A32] hover:text-[#A84422] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C85A32] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
+}
+
+.input {
+  @apply min-h-[44px] w-full rounded-xl border border-[#181512]/15 bg-white px-3.5 py-2.5 text-sm text-[#181512] placeholder:text-[#6E655F] focus:border-[#C85A32] focus:outline-none focus:ring-2 focus:ring-[#C85A32]/25 disabled:cursor-not-allowed disabled:opacity-60;
+}
+
+.label {
+  font-family: "JetBrains Mono", monospace;
+  @apply mb-1.5 block text-[10px] font-medium uppercase tracking-[0.14em] text-[#6E655F];
+}

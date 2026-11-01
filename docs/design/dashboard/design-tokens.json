@@ -1,0 +1,183 @@
+{
+  "meta": {
+    "name": "UtsavOS Dashboard",
+    "version": "0.1",
+    "status": "design",
+    "scope": "dashboard-home-only",
+    "brandAuthority": "apps/web landing page",
+    "sampleData": true
+  },
+  "color": {
+    "canvas": "#FAF6F0",
+    "surface": "#FFFDF9",
+    "surfaceMuted": "#F4EDE3",
+    "sidebar": "#F2ECE2",
+    "ink": "#12100E",
+    "inkSoft": "#1C1814",
+    "textPrimary": "#1E1A16",
+    "textSecondary": "#5E574E",
+    "textTertiary": "#7A7065",
+    "border": "#DED5C8",
+    "borderStrong": "#C9BDAE",
+    "accent": "#C85A32",
+    "accentDeep": "#A84422",
+    "accentSoft": "#F6E4DA",
+    "accentBanner": "#FBF0E9",
+    "accentBorder": "#E8C9B8",
+    "positive": "#5F6F5E",
+    "positiveDeep": "#3F4A3E",
+    "positiveSoft": "#E8EEE4",
+    "warning": "#A36A1F",
+    "warningSoft": "#F8EEDC",
+    "warningBorder": "#E4C9A4",
+    "danger": "#A33B2E",
+    "dangerSoft": "#F7E4E0",
+    "dangerBorder": "#E8C4BD",
+    "gold": "#B08D57",
+    "focus": "#A84422",
+    "focusOnAccent": "#12100E",
+    "white": "#FFFFFF"
+  },
+  "typography": {
+    "families": {
+      "display": "\"Iowan Old Style\", \"Palatino Linotype\", \"Book Antiqua\", Georgia, serif",
+      "sans": "\"Avenir Next\", Avenir, \"Segoe UI\", Helvetica, Arial, sans-serif",
+      "mono": "ui-monospace, \"SFMono-Regular\", Menlo, Consolas, \"Liberation Mono\", monospace"
+    },
+    "scale": {
+      "displayXl": { "size": 44, "lineHeight": 48, "weight": 400, "tracking": "-0.035em" },
+      "displayL": { "size": 32, "lineHeight": 36, "weight": 400, "tracking": "-0.03em" },
+      "displayM": { "size": 26, "lineHeight": 32, "weight": 400, "tracking": "-0.02em" },
+      "displayS": { "size": 22, "lineHeight": 28, "weight": 400, "tracking": "-0.02em" },
+      "bodyL": { "size": 14, "lineHeight": 22, "weight": 400 },
+      "bodyM": { "size": 13, "lineHeight": 20, "weight": 400 },
+      "bodyS": { "size": 12, "lineHeight": 18, "weight": 400 },
+      "caption": { "size": 11, "lineHeight": 16, "weight": 400 },
+      "eyebrow": { "size": 10, "lineHeight": 14, "weight": 600, "tracking": "0.16em", "transform": "uppercase" },
+      "nav": { "size": 13, "lineHeight": 20, "weight": 500 },
+      "button": { "size": 12, "lineHeight": 16, "weight": 600 },
+      "monoL": { "size": 26, "lineHeight": 32, "weight": 500 },
+      "monoM": { "size": 22, "lineHeight": 28, "weight": 500 },
+      "monoS": { "size": 13, "lineHeight": 20, "weight": 500 },
+      "monoXs": { "size": 11, "lineHeight": 16, "weight": 500 }
+    }
+  },
+  "space": {
+    "1": 4,
+    "2": 8,
+    "3": 12,
+    "4": 16,
+    "5": 20,
+    "6": 24,
+    "7": 32,
+    "8": 40,
+    "9": 48,
+    "10": 64,
+    "11": 80,
+    "12": 96
+  },
+  "radius": {
+    "sm": 8,
+    "md": 10,
+    "lg": 14,
+    "xl": 16,
+    "2xl": 20,
+    "pill": 999
+  },
+  "border": {
+    "width": 1,
+    "style": "solid"
+  },
+  "shadow": {
+    "card": "0 1px 2px rgba(18,16,14,0.04)",
+    "drawer": "0 24px 64px rgba(18,16,14,0.18)"
+  },
+  "layout": {
+    "desktop": {
+      "sidebarWidth": 252,
+      "topbarHeight": 68,
+      "contentWidth": 1124,
+      "pagePadding": 32,
+      "cardPadding": 24,
+      "sectionGap": 24,
+      "gridGap": 16,
+      "eventMetricColumns": 4,
+      "milestoneColumns": 2,
+      "brandIcon": 32
+    },
+    "tablet": {
+      "sidebarWidth": 320,
+      "sidebarMode": "drawer",
+      "topbarHeight": 64,
+      "contentWidth": 704,
+      "pagePadding": 32,
+      "cardPadding": 22,
+      "sectionGap": 20,
+      "gridGap": 16,
+      "eventMetricColumns": 2,
+      "milestoneColumns": 2,
+      "brandIcon": 30
+    },
+    "mobile": {
+      "sidebarWidth": 320,
+      "sidebarMode": "drawer",
+      "topbarHeight": 56,
+      "contentWidth": 343,
+      "pagePadding": 16,
+      "cardPadding": 16,
+      "sectionGap": 16,
+      "gridGap": 12,
+      "eventMetricColumns": 1,
+      "milestoneColumns": 1,
+      "brandIcon": 28
+    },
+    "buttonHeight": { "desktop": 36, "tablet": 40, "mobile": 44 },
+    "heroCtaHeight": 44,
+    "touchTarget": { "tablet": 44, "mobile": 44 }
+  },
+  "breakpoints": {
+    "sm": 640,
+    "md": 768,
+    "lg": 1024,
+    "xl": 1280,
+    "2xl": 1440
+  },
+  "focus": {
+    "ringWidth": 2,
+    "offset": 2,
+    "color": "#A84422",
+    "colorOnAccent": "#12100E",
+    "visibleOnly": true
+  },
+  "motion": {
+    "hoverMs": 120,
+    "drawerMs": 180,
+    "bannerMs": 220,
+    "easing": "cubic-bezier(0.2, 0.8, 0.2, 1)",
+    "reducedMotion": {
+      "durationMs": 0,
+      "transforms": false,
+      "smoothScroll": false
+    }
+  },
+  "zIndex": {
+    "sidebar": 20,
+    "topbar": 30,
+    "scrim": 40,
+    "drawer": 50,
+    "toast": 60
+  },
+  "dataDisclosure": {
+    "sampleWorkspace": true,
+    "sampleEvent": "Ananya & Rohan",
+    "sampleDate": "2027-02-14",
+    "sampleGuestBaseline": 180,
+    "sampleGuestChange": 240,
+    "sampleBudgetMinor": 180000000,
+    "sampleReserveMinor": 18000000,
+    "sampleProjectedMinor": 170080000,
+    "samplePendingDeltaMinor": 23520000,
+    "sampleShortfallMinor": 8080000,
+    "note": "Synthetic flagship fixture. Not production data."
+  }
+}
