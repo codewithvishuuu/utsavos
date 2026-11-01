@@ -13,20 +13,27 @@ services:
     # Fast, dependency-free deploy-gating check; /readyz additionally verifies
     # the database, verified TLS and the migration head (see ops runbook).
     healthCheckPath: /healthz
-    # Bind to 0.0.0.0:$PORT (Render assigns PORT). Migrations run before the
-    # server accepts traffic and are idempotent; a single worker keeps the
-    # in-process rate limiters meaningful.
-    dockerCommand: sh -c 'alembic upgrade head && exec uvicorn utsavos.main:app --host 0.0.0.0 --port ${PORT} --workers 1 --no-access-log'
+    # `python -m utsavos.deploy` upgrades the fromDatabase internal URL to the
+    # External host with sslmode=verify-full&sslrootcert=system (internal
+    # connections only support self-signed TLS, but production validation
+    # requires verified TLS), runs `alembic upgrade head`, then serves on
+    # 0.0.0.0:$PORT with one worker (in-process rate limiters). Fails closed.
+    dockerCommand: python -m utsavos.deploy
     envVars:
       - key: APP_ENV
         value: production
       - key: APP_SECRET_KEY
         generateValue: true # 256-bit random; never committed
-      # Production requires verified TLS: set the External Database URL with
-      # ?sslmode=verify-full&sslrootcert=<CA file or 'system'> after the first
-      # sync. The startup validator rejects anything weaker - deliberately.
+      # Wired automatically by Render (resolve at sync time): the internal
+      # connection string of the database declared below. No secret is ever
+      # entered, stored in Git, or exposed to the chat/logs. See
+      # apps/api/src/utsavos/deploy.py for the verified-TLS upgrade.
       - key: DATABASE_URL
-        sync: false
+        fromDatabase:
+          name: utsavos-pg
+          property: connectionString
+      - key: DB_REGION
+        value: singapore
       - key: AI_LOCAL_ENABLED
         value: "false"
       - key: CLOUD_AI_ENABLED

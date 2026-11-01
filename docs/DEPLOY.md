@@ -22,26 +22,32 @@ Always-on upgrade path: web `0.5c-512mb` ($7/mo) + Postgres `0.1c-256mb`
 ## Verified-TLS database requirement
 
 Production startup (`config.validate_runtime`) **rejects** a `DATABASE_URL`
-without `sslmode=verify-full` and `sslrootcert`. The Render database *internal*
-URL only supports self-signed TLS, so the app uses the **external** URL:
+without `sslmode=verify-full` and `sslrootcert`:
 
-1. Take the database's **External Database URL** from the Render dashboard.
-2. Replace scheme `postgresql://` with `postgresql+psycopg://`.
-3. Replace `?sslmode=require` with `?sslmode=verify-full&sslrootcert=system`
-   if the Render certificate chains to a public CA (verify first — see below)
-   or `?sslmode=verify-full&sslrootcert=/app/deploy/render-db-ca.pem` once the
-   CA bundle file is committed (public certificate, safe to commit).
+1. The Blueprint wires `DATABASE_URL` from `utsavos-pg`'s **internal**
+   connection string via `fromDatabase` — no secret is entered anywhere.
+2. Internal connections only support self-signed TLS (no `verify-full`), so
+   `apps/api/src/utsavos/deploy.py` (the container start command,
+   `python -m utsavos.deploy`) derives the **external** hostname
+   (`<db-id>-a.<region>-postgres.render.com`), upgrades the URL to
+   `postgresql+psycopg` + `?sslmode=verify-full&sslrootcert=system`, performs
+   one verified-TLS handshake as a probe, runs `alembic upgrade head`, and
+   serves. It **fails closed**: derivation or handshake failure exits nonzero
+   and the deploy fails visibly. The URL never leaves the container.
+3. If `sslrootcert=system` does not verify (i.e. Render's external database
+   certificates do not chain to a public CA), the deploy fails; the fallback
+   is pinning Render's database CA bundle to a committed file
+   `/app/deploy/render-db-ca.pem` (public certificate, safe to commit).
 
-Verification command (run before choosing, from any machine with `psql` or
-Python `psycopg`):
+Verification command (run after first deploy, from any machine):
 
 ```
-openssl s_client -connect <host>:5432 -starttls postgres -brief
+openssl s_client -connect <external-db-host>:5432 -starttls postgres -brief
 ```
 
-If the chain verifies against the system store, `sslrootcert=system` works.
 `/readyz` fails closed ("database TLS not verified") unless TLS is live and
-verified, in production.
+verified, in production. Trust-root switching (`system` vs pinned CA) never
+weakens below `verify-full`.
 
 ## Notes and known limitations
 
